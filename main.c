@@ -51,9 +51,54 @@ void main(void)
 {
     // initialize the device
     SYSTEM_Initialize();
+    uint16_t distance_mm;
 
     while (1)
     {
+        yeux_start_mesure();
+         distance_mm = yeux_convertir_impulsion_vers_distance_mm(yeux_get_largeur_impulsion_us());
+         
+         if (distance_mm<100)
+           {
+                 for (int compteur_10khz = 0; compteur_10khz < 2500; ++compteur_10khz)
+                 {
+                 IO_BUZZER_SetHigh();
+                 DELAY_microseconds(100);
+                 IO_BUZZER_SetLow();
+                 DELAY_microseconds(100);
+                 }
+             }
+                 else if (distance_mm<150)
+          {       
+            for (int compteur_7khz = 0; compteur_7khz < 1750; ++compteur_7khz)
+              {  
+                IO_BUZZER_SetHigh();
+                 DELAY_microseconds(150);
+                 IO_BUZZER_SetLow();
+                 DELAY_microseconds(150);
+              }   
+           }   
+         
+         else if (distance_mm<200)
+          {       
+            for (int compteur_2khz = 0; compteur_2khz < 1000; ++compteur_2khz)
+              {  
+                IO_BUZZER_SetHigh();
+                 DELAY_microseconds(500);
+                 IO_BUZZER_SetLow();
+                 DELAY_microseconds(500);
+              }   
+           }   
+         else 
+                 {       
+            for (int compteur_500hz = 0; compteur_500hz < 50; ++compteur_500hz)
+              {  
+                IO_BUZZER_SetHigh();
+                 DELAY_milliseconds(2);
+                 IO_BUZZER_SetLow();
+                 DELAY_milliseconds(2);
+              }   
+           }   
         /* 
          * Ajouter votre code à partir de ce point
          * 
